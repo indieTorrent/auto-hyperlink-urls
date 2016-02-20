@@ -1,4 +1,5 @@
-<?php
+<?php namespace indietorrent\AutoHyperlinkUrls;
+
 /**
  * @package Auto_Hyperlink_URLs
  * @author Scott Reilly
@@ -43,7 +44,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require('required-wordpress-functions.php');
 
-class c2c_AutoHyperlinkURLs {
+class c2c_AutoHyperlinkUrls {
 
 	public static $instance;
 
@@ -51,10 +52,10 @@ class c2c_AutoHyperlinkURLs {
 	 * Constructor
 	 */
 	public function __construct() {
-		$this->c2c_AutoHyperlinkURLs();
+		$this->c2c_AutoHyperlinkUrls();
 	}
 
-	public function c2c_AutoHyperlinkURLs() {
+	public function c2c_AutoHyperlinkUrls() {
 		// Be a singleton
 		if ( ! is_null( self::$instance ) )
 			return;
@@ -327,4 +328,4 @@ class c2c_AutoHyperlinkURLs {
 		return $this->get_defaults();
 	}
 
-} // end c2c_AutoHyperlinkURLs
+} // end c2c_AutoHyperlinkUrls
