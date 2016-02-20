@@ -1,0 +1,7 @@
+{
+	"name": "indietorrent/auto-hyperlink-urls",
+	"description": "A port of Scott Reilly's (coffee2code) Auto_Hyperlink_URLs WordPress plugin (this port is for use without WordPress). Automatically hyperlink text URLs and email addresses originally written only as plaintext.",
+	"require": {
+		"php": ">=5.3.0"
+	}
+}
