@@ -1,4 +1,4 @@
-<?php namespace indietorrent\AutoHyperlinkUrls;
+<?php namespace IndieTorrent\AutoHyperlinkUrls;
 
 /**
  * @package Auto_Hyperlink_URLs
@@ -44,7 +44,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require('required-wordpress-functions.php');
 
-class c2c_AutoHyperlinkUrls {
+class AutoHyperlinkUrls {
 
 	public static $instance;
 
@@ -52,10 +52,10 @@ class c2c_AutoHyperlinkUrls {
 	 * Constructor
 	 */
 	public function __construct() {
-		$this->c2c_AutoHyperlinkUrls();
+		$this->AutoHyperlinkUrls();
 	}
 
-	public function c2c_AutoHyperlinkUrls() {
+	public function AutoHyperlinkUrls() {
 		// Be a singleton
 		if ( ! is_null( self::$instance ) )
 			return;
@@ -328,4 +328,4 @@ class c2c_AutoHyperlinkUrls {
 		return $this->get_defaults();
 	}
 
-} // end c2c_AutoHyperlinkUrls
+} // end AutoHyperlinkUrls
