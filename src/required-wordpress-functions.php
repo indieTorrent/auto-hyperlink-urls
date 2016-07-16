@@ -260,7 +260,11 @@ function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = fals
 	if ( ! $charset ) {
 		static $_charset = null;
 		if ( ! isset( $_charset ) ) {
-			$alloptions = wp_load_alloptions();
+			//Commented because these options are irrelevant in this "standalone"
+			//context.
+			
+			//$alloptions = wp_load_alloptions();
+			$alloptions = [];
 			$_charset = isset( $alloptions['blog_charset'] ) ? $alloptions['blog_charset'] : '';
 		}
 		$charset = $_charset;
@@ -291,4 +295,49 @@ function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = fals
 		$string = str_replace( "'", '&#039;', $string );
 
 	return $string;
+}
+
+function wp_kses_normalize_entities2($matches) {
+    if ( empty($matches[1]) )
+        return '';
+ 
+    $i = $matches[1];
+    if (valid_unicode($i)) {
+        $i = str_pad(ltrim($i,'0'), 3, '0', STR_PAD_LEFT);
+        $i = "&#$i;";
+    } else {
+        $i = "&amp;#$i;";
+    }
+ 
+    return $i;
+}
+
+function wp_kses_named_entities($matches) {
+    global $allowedentitynames;
+ 
+    if ( empty($matches[1]) )
+        return '';
+ 
+    $i = $matches[1];
+    return ( ! in_array( $i, $allowedentitynames ) ) ? "&amp;$i;" : "&$i;";
+}
+
+function wp_kses_normalize_entities3($matches) {
+    if ( empty($matches[1]) )
+        return '';
+ 
+    $hexchars = $matches[1];
+    return ( ! valid_unicode( hexdec( $hexchars ) ) ) ? "&amp;#x$hexchars;" : '&#x'.ltrim($hexchars,'0').';';
+}
+
+function wp_kses_normalize_entities($string) {
+    // Disarm all entities by converting & to &amp;
+    $string = str_replace('&', '&amp;', $string);
+ 
+    // Change back the allowed entities in our entity whitelist
+    $string = preg_replace_callback('/&amp;([A-Za-z]{2,8}[0-9]{0,2});/', 'wp_kses_named_entities', $string);
+    $string = preg_replace_callback('/&amp;#(0*[0-9]{1,7});/', 'wp_kses_normalize_entities2', $string);
+    $string = preg_replace_callback('/&amp;#[Xx](0*[0-9A-Fa-f]{1,6});/', 'wp_kses_normalize_entities3', $string);
+ 
+    return $string;
 }
